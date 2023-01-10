@@ -1,1 +1,1 @@
-1. `sudo apt update`![SC 1](sudo_apt_update_1.png)
+1. `sudo apt update`![SC 1](./images/sudo_apt_update_1.png)
