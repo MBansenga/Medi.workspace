@@ -53,7 +53,7 @@
  The "$" sign is used to reference a variable 
 ![variable](./images/variable.png)
 
- ## Flags    
+ # Flags    
 1. `ls -l` - Lists files in directory with more information 
 ![ls_l](./images/ls_l.png)   
 
