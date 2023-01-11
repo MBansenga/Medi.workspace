@@ -37,7 +37,7 @@
 ![rmdir](./images/rmdir.png)    
 
  13. `rm` - Used to remove   
-![rm](./images/rmdir.png) 
+![rm](./images/rm.png) 
 
  14. `cp` - Used to copy   
 ![cp](./images/cp.png) 
