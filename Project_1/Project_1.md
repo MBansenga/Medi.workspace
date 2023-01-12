@@ -54,3 +54,78 @@ These can all be installed at once using `sudo apt install php libapache2-mod-ph
 ![sudo_php](./images/sudo_php.png)  
 
 # Creating a virtual host for your website using Apache
+
+First step is to create a directory for the domain we are trying to set up "projectlamp" by using `sudo mkdir /var/www/projectlamp` we can then assign ownership of the directory with the current  
+system user with the command `sudo chown -R $USER:$USER /var/www/projectlamp`   
+
+![sudo_own](./images/sudo_own.png)  
+
+Vi or Vim (a command-line editor) can now be used to create and open a new configuration file in Apache's  
+"sites-available" directory `sudo vi /etc/apache2/sites-available/projectlamp.conf`  
+
+Once the new blank file has been created we can now paste in the bare-bones configuration by hitting "i" on the keyboard to enter insert mode:
+`<VirtualHost *:80>
+    ServerName projectlamp
+    ServerAlias www.projectlamp 
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/projectlamp
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>` 
+
+![virtual_host](./images/virtual_host.png)   
+
+To save and close file we must press "Esc" -> Type ":" -> Type "wq" (w for write, q for quit) -> press "Enter" to save file. We can then use `sudo ls /etc/apache2/sites-available` to show and confirm new file in the "sites-available" directory 
+
+![sudo_ls](./images/sudo_ls.png)  
+
+To enable the new virtual host we use the command `sudo a2ensite projectlamp` we also need to disable
+the pre-installed default website that comes with Apache. This is to prevent Apache's default cconfiguration overwriting our virtual host. This can be done using `sudo a2dissite 000-default`  
+
+![sudo_a2](./images/sudo_a2.png)   
+
+To confirm our configuration file doesn't contain syntax errors we run `sudo apache2ctl configtest` we can then reload Apache so the changes can come into effect `sudo systemctl reload apache2`  
+
+![sudo_sys](./images/sudo_sys.png)   
+
+Next step is to create an index.html file in web root /var/www/projectlamp to test our virtual host
+works 
+`sudo echo 'Hello LAMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectlamp/index.html` 
+
+We should now be able to open our website URL using IP adress or by public DNS, the text from the `echo` command we wrote to the index.html file shows us our Apache virtual host is working 
+
+![sudo_echo](./images/sudo_echo.png) 
+
+# Enable PHP on the website
+
+In order to stop the index.html file taking precedence over the new index.php file we are about to create, we must edit the /etc/apache2/mods-enabled/dir.conf file to change the order index.php file 
+is listed within the DirectoryIndex directive 
+
+`sudo vim /etc/apache2/mods-enabled/dir.conf`
+
+`<IfModule mod_dir.c>
+        #Change this:
+        #DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
+        #To this:
+        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>`
+
+![sudo_vim](./images/sudo_vim.png) 
+(To remove orignal lines press Esc, :, %, d)  
+
+We then reload Apache so changes can take effect `sudo systemctl reload apache2`  
+
+To test if PHP has been correctly installed and configured on our server we can create a PHP script,
+first step is to create a new file named "index.php" in our custom web root folder `vim /var/www/projectlamp/index.php` we must then add the text below inside the file.
+
+"<?php
+phpinfo();" 
+
+![php](./images/php.png) 
+
+To confirm if our PHP installation is working as expected we should see the following after refreshing the page 
+
+![php_sc](./images/php_sc.png) 
+
+It is best practice to remove the php file we have created as this contains sensitive information about our PHP
+environment and Ubuntu server, we can do this using `sudo rm /var/www/projectlamp/index.php`  
