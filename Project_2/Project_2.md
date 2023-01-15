@@ -134,7 +134,7 @@ We will now create a test table named todo_list, first run the following stateme
 
 Next we insert a few rows of content to test our table using `INSERT INTO example_database.todo_list (content) VALUES ("Task type");` to confirm if this was successful we use `SELECT * FROM example_database.todo_list;` we should see this 
 
-![todo](./images/todo.png) 
+![todo](./images/todo.PNG) 
 
 Finally we will create a PHP script that will connect to MySQL and query for our content, first we create a new PHP file in our custom web root directory using nano `nano /var/www/projectLEMP/todo_list.php` and copy this into our "todo_list.php" script
 
