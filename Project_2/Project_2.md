@@ -102,7 +102,7 @@ We need to confirm whether Nginx can correctly pass .php files on to our PHP pro
 `<?php
 phpinfo();`  
 
-![php](./images/php.png)  
+![php](./images/php.PNG)  
 
 We should now be able to access this page using via web browser "http://`server_domain_or_IP`/info.php" the following page should appear 
 
@@ -117,16 +117,16 @@ Finally we will create a test database and configure access to it to enable our 
 First step is to connect to the MySQL console using the root account `sudo mysql` and then create a new 
 database using `mysql> CREATE DATABASE `example_database`;`  
 
-![database](./images/database.png) 
+![database](./images/database.PNG) 
 
 We can now create a new user and grant them full privileges on the database using `CREATE USER 'example_user'@'%' IDENTIFIED WITH mysql_native_password BY 'Potato.27;` we then give this user permission over "example_database" using `GRANT ALL ON example_database.* TO 'example_user'@'%';`
 this will give them full privileges over the database while preventing them from other privileges on our server  
 
-![mysql_example](./images/mysql_example.png)  
+![mysql_example](./images/mysql_example.PNG)  
 
 To test if the new user has proper permissions we can log out and log into mySQL console using `mysql -u example_user -p` you can then confirm this user has access to "example_database" by inputting the following statement `SHOW DATABASES;` the following ouput should show 
 
-![example](./images/example.png)  
+![example](./images/example.PNG)  
 
 We will now create a test table named todo_list, first run the following statement:
 
