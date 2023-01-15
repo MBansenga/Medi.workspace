@@ -99,19 +99,63 @@ The text from the echo command should appear on our website which we can visit t
 # Testing PHP with NGINX  
 We need to confirm whether Nginx can correctly pass .php files on to our PHP processor, first we must create a test PHP file in our document root using `sudo nano /var/www/projectLEMP/info.php` and paste the following lines into the file
 
-<?php
-phpinfo();  
+`<?php
+phpinfo();`  
 
 ![php](./images/php.png)  
 
 We should now be able to access this page using via web browser "http://`server_domain_or_IP`/info.php" the following page should appear 
 
-
+![php_default](./images/php_default.png) 
 
 It is best practice to remove the php file we have created as this contains sensitive information about our PHP
 environment and Ubuntu server, we can do this using `sudo rm /var/www/your_domain/info.php`                             
 
 # Retrieving data from MySQL database with PHP
 Finally we will create a test database and configure access to it to enable our Nginx website to query data from the database and display it 
+ 
+First step is to connect to the MySQL console using the root account `sudo mysql` and then create a new 
+database using `mysql> CREATE DATABASE `example_database`;`  
 
-First we connect to the MySQL console using `sudo mysql` and then create a new database using `mysql> CREATE DATABASE `example_database`;` 
+![database](./images/database.png) 
+
+We can now create a new user and grant them full privileges on the database using `CREATE USER 'example_user'@'%' IDENTIFIED WITH mysql_native_password BY 'Potato.27;` we then give this user permission over "example_database" using `GRANT ALL ON example_database.* TO 'example_user'@'%';`
+this will give them full privileges over the database while preventing them from other privileges on our server  
+
+![mysql_example](./images/mysql_example.png)  
+
+To test if the new user has proper permissions we can log out and log into mySQL console using `mysql -u example_user -p` you can then confirm this user has access to "example_database" by inputting the following statement `SHOW DATABASES;` the following ouput should show 
+
+![example](./images/example.png)  
+
+We will now create a test table named todo_list, first run the following statement:
+
+`CREATE TABLE example_database.todo_list (item_id INT AUTO_INCREMENT, content VARCHAR(255), PRIMARY KEY(item_id));` 
+
+Next we insert a few rows of content to test our table using `INSERT INTO example_database.todo_list (content) VALUES ("Task type");` to confirm if this was successful we use `SELECT * FROM example_database.todo_list;` we should see this 
+
+![todo](./images/todo.png) 
+
+Finally we will create a PHP script that will connect to MySQL and query for our content, first we create a new PHP file in our custom web root directory using nano `nano /var/www/projectLEMP/todo_list.php` and copy this into our "todo_list.php" script
+
+`<?php
+$user = "example_user";
+$password = "Potato.27";
+$database = "example_database";
+$table = "todo_list";
+
+try {
+  $db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
+  echo "<h2>TODO</h2><ol>";
+  foreach($db->query("SELECT content FROM $table") as $row) {
+    echo "<li>" . $row['content'] . "</li>";
+  }
+  echo "</ol>";
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}` 
+
+After saving and closing the file you should now be able to access this page in our web browser by visting our website followed by "/todo_list.php" you should see the contents of your test table laid out like this:  
+
+![todo_list](./images/todo_list.png) 
