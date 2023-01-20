@@ -74,15 +74,15 @@
 
 18. `df` - Used to find out information of free space left on the disk 
 
-![df](./images/df.png) 
+![df](./images/df.PNG) 
 
 19. `free` - Shows you the memory details 
 
-![free](./images/free.png)  
+![free](./images/free.PNG)  
 
 20.  `id` - Shows you more information about the logged in user 
 
-![id](./images/id.png)  
+![id](./images/id.PNG)  
 
  # Flags    
 1. `ls -l` - Lists files in directory with more information 
@@ -103,21 +103,21 @@
 
 5. `mkdir -p` - Used to create multiple directories at once 
 
-![mkdir_p](./images/mkdir_p.png)  
+![mkdir_p](./images/mkdir_p.PNG)  
 
 6. `df -h` - Shows free disk space in human readable form (can also be used with `free`)
 
-![df_h](./images/df_h.png)    
+![df_h](./images/df_h.PNG)    
 
 # Linux directories 
 
 `tree` - Presents your directories in levels as a tree (must run `sudo apt-get install tree` first) 
 
-![tree](./images/tree.png) 
+![tree](./images/tree.PNG) 
 
 `tree / -L 1` - Shows directories in root folder (/) in tree format, increase in number (2, 3 etc) will show subdirectories 
 
-![tree_l](./images/tree_l.png) 
+![tree_l](./images/tree_l.PNG) 
 
 ```
 1. /bin is linked to usr/bin, this stores binary files -> Binary files are a compiled version of written code
