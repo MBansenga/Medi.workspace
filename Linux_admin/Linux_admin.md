@@ -105,7 +105,7 @@
 
 ![mkdir_p](./images/mkdir_p.png)  
 
-6.  `df -h` - Shows free disk space in human readable form (can also be used with `free`)
+6. `df -h` - Shows free disk space in human readable form (can also be used with `free`)
 
 ![df_h](./images/df_h.png)    
 
