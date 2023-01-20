@@ -58,7 +58,8 @@ We can then use Nano to create and open a new configuration file in Apache's
 
 Once the new blank file has been created we can now paste in the bare-bones configuration:
 
-`server {
+```
+server {
     listen 80;
     server_name projectLEMP www.projectLEMP;
     root /var/www/projectLEMP;
@@ -78,7 +79,8 @@ Once the new blank file has been created we can now paste in the bare-bones conf
         deny all;
     }
 
-}`
+}
+```
 
 ![nano](./images/nano.png)  
 
@@ -99,8 +101,10 @@ The text from the echo command should appear on our website which we can visit t
 # Testing PHP with NGINX  
 We need to confirm whether Nginx can correctly pass .php files on to our PHP processor, first we must create a test PHP file in our document root using `sudo nano /var/www/projectLEMP/info.php` and paste the following lines into the file
 
-`<?php
-phpinfo();`  
+```php
+<?php
+phpinfo();
+``` 
 
 ![php](./images/php.PNG)  
 
@@ -130,7 +134,7 @@ To test if the new user has proper permissions we can log out and log into mySQL
 
 We will now create a test table named todo_list, first run the following statement:
 
-`CREATE TABLE example_database.todo_list (item_id INT AUTO_INCREMENT, content VARCHAR(255), PRIMARY KEY(item_id));` 
+`CREATE TABLE example_database.todo_list (item_id INT AUTO_INCREMENT, content VARCHAR(255), PRIMARY KEY(item_id));`
 
 Next we insert a few rows of content to test our table using `INSERT INTO example_database.todo_list (content) VALUES ("Task type");` to confirm if this was successful we use `SELECT * FROM example_database.todo_list;` we should see this 
 
@@ -138,7 +142,8 @@ Next we insert a few rows of content to test our table using `INSERT INTO exampl
 
 Finally we will create a PHP script that will connect to MySQL and query for our content, first we create a new PHP file in our custom web root directory using nano `nano /var/www/projectLEMP/todo_list.php` and copy this into our "todo_list.php" script
 
-`<?php
+```php
+<?php
 $user = "example_user";
 $password = "Potato.27";
 $database = "example_database";
@@ -154,7 +159,8 @@ try {
 } catch (PDOException $e) {
     print "Error!: " . $e->getMessage() . "<br/>";
     die();
-}` 
+}
+```
 
 After saving and closing the file you should now be able to access this page in our web browser by visting our website followed by "/todo_list.php" you should see the contents of your test table laid out like this:  
 

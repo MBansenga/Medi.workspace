@@ -30,7 +30,8 @@ First we use npm to install express `npm install express` and then created the f
 
 Next we install the "dotenv" module `npm install dotenv` and then open the "index.js" file using `vim index.js` once we are here we type the following code in:
 
-`const express = require('express');
+```js
+const express = require('express');
 require('dotenv').config();
 
 const app = express();
@@ -49,7 +50,8 @@ res.send('Welcome to Express');
 
 app.listen(port, () => {
 console.log(`Server running on port ${port}`) 
-});` 
+});
+```
 
 *Remember to use :w and :qa to save and exit vim* 
 
@@ -80,7 +82,8 @@ Each of these tasks will be assocaited with a particular endpoint and will use d
 We will need to create routes that will define various endpoints that our Todo app will depend on, first step is to create a folder `mkdir routes` we can then change directory into our routes folder using `cd routes` and then create a file "api.js" `api.js` once we open this file using `vim api.js`
 we copy the following code into the file
 
-`const express = require ('express');
+```js
+const express = require ('express');
 const router = express.Router();
 
 router.get('/todos', (req, res, next) => {
@@ -95,7 +98,8 @@ router.delete('/todos/:id', (req, res, next) => {
 
 })
 
-module.exports = router;` 
+module.exports = router;
+```
 
 ![api](./images/api.png)   
  
@@ -117,7 +121,8 @@ module.exports = router;`
 
  Once created open the file with `vim todo.js` and input the following code 
 
- `const mongoose = require('mongoose');
+```js
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //create schema for todo
@@ -131,13 +136,15 @@ required: [true, 'The todo text field is required']
 //create model for todo
 const Todo = mongoose.model('todo', TodoSchema);
 
-module.exports = Todo;` 
+module.exports = Todo;
+```
 
 ![todo](./images/todo.png)  
 
 We now need to update our routes from the file "api.js" in our routes directory to make use of the new model, in this directory we open "api.js" with `vim api.js` delete the code inside with `:%d` and paste the following code inside
 
-`const express = require ('express');
+```js
+const express = require ('express');
 const router = express.Router();
 const Todo = require('../models/todo');
 
@@ -167,7 +174,8 @@ Todo.findOneAndDelete({"_id": req.params.id})
 .catch(next)
 })
 
-module.exports = router;` 
+module.exports = router;
+```
 
 ![vim_d](./images/vim_d.png) 
 
@@ -181,7 +189,9 @@ Once an account is set up we must allow access to the MongoDB database from anyw
 
 Previously in our "index.js" file we specified "process.env" to access environment variables, we will need to create this file in our Todo directory and name it ".env" `touch .env` we then open and add the connection string below to access the database
 
-`DB = 'mongodb+srv://<username>:<password>@<network-address>/<dbname>?retryWrites=true&w=majority'` 
+```
+DB = 'mongodb+srv://<username>:<password>@<network-address>/<dbname>?retryWrites=true&w=majority'
+```
 
 We can obtain our connection string from MongoDB by clicking Connect -> Connect your application 
 
@@ -192,7 +202,8 @@ We can obtain our connection string from MongoDB by clicking Connect -> Connect 
 Next step is to update our "index.js" to reflect the use of ".env" so that Node.js can connect to the
 database. Use the following command `vim index.js` and replace the contents with the following code
 
-`const express = require('express');
+```js
+const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes/api');
@@ -228,7 +239,8 @@ next();
 
 app.listen(port, () => {
 console.log(`Server running on port ${port}`)
-});`  
+});
+``` 
 
 *Remember to use Esc, :%d, Enter to clear file and i (insert mode) for vim* 
 
@@ -258,12 +270,13 @@ Before we can test the react App we will need to install some dependencies:
 2. `npm install nodemon --save-dev` - used to run and monitor the server. If there is any change in the server code, nodemon will restart it automatically and load the new changes.
 
 We then need to open our "package.json" file in the Todo folder and replace a section of code
-
+```json
 `"scripts": {
 "start": "node index.js",
 "start-watch": "nodemon index.js",
 "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\""
 },` 
+```
 
 ### Configure Proxy in package.json
 
@@ -281,7 +294,8 @@ We must also open TCP port 3000 on our EC2 in order access the application from 
 
 For our Todo app there will be two stateful components and one stateless component, whilst in our client directory we must move to our src directory `cd src` and create another folder called "components" `mkdir components` once we are here we create three files using `touch Input.js ListTodo.js Todo.js` we can then open our "Input.js" file `vi Input.js` and place the following inside
 
-`import React, { Component } from 'react';
+```js
+import React, { Component } from 'react';
 import axios from 'axios';
 
 class Input extends Component {
@@ -325,7 +339,8 @@ return (
 }
 }
 
-export default Input` 
+export default Input
+``` 
 
 ![input](./images/input.png)  
 
@@ -333,7 +348,8 @@ Now we need to install Axios inside of our clients directory, this is a promise 
 
 Once this is completed go back to our components directory and paste the following code in the "ListTodo.js" file and "Todo.js" file respectively 
 
-`import React from 'react';
+```js
+import React from 'react';
 
 const ListTodo = ({ todos, deleteTodo }) => {
 
@@ -359,11 +375,13 @@ return (
 }
 
 export default ListTodo` 
+```
 
 ![list](./images/list.png)
 
 
-`import React, {Component} from 'react';
+```js
+import React, {Component} from 'react';
 import axios from 'axios';
 
 import Input from './Input';
@@ -417,13 +435,15 @@ let { todos } = this.state;
 }
 }
 
-export default Todo;` 
+export default Todo;
+``` 
 
 ![todo.js](./images/todo.js.png)
 
 We now need to make some adjustments to our react code and adjust our App.js, first we move back into the src directory and use `vi App.js` and paste the following code
 
-`import React from 'react';
+```js
+import React from 'react';
 
 import Todo from './components/Todo';
 import './App.css';
@@ -436,11 +456,13 @@ return (
 );
 }
 
-export default App;` 
+export default App;
+```
 
 We then need to open the "App.css" file with `vi App.css` and paste the following code 
 
-`.App {
+```css
+.App {
 text-align: center;
 font-size: calc(10px + 2vmin);
 width: 60%;
@@ -527,11 +549,12 @@ margin-left: 10px;
 margin-top: 0;
 }
 }`  
-
+```
 
 Finally we open our "index.css" file `index.css` and copy and paste the following code
 
-`body {
+```css
+body {
 margin: 0;
 padding: 0;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -548,7 +571,7 @@ code {
 font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 monospace;
 }` 
-
+```
 Once complete we go back to our Todo directory and run `npm run dev` again, our To-Do app should now be ready and fully functional: creating a task, deleting a task and viewing all our tasks. 
 
 ![fin](./images/fin.png)   

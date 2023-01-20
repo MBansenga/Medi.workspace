@@ -64,14 +64,17 @@ Vi or Vim (a command-line editor) can now be used to create and open a new confi
 "sites-available" directory `sudo vi /etc/apache2/sites-available/projectlamp.conf`  
 
 Once the new blank file has been created we can now paste in the bare-bones configuration by hitting "i" on the keyboard to enter insert mode:
-`<VirtualHost *:80>
+
+```conf
+<VirtualHost *:80>
     ServerName projectlamp
     ServerAlias www.projectlamp 
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/projectlamp
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>` 
+</VirtualHost>
+```
 
 ![virtual_host](./images/virtual_host.png)   
 
@@ -103,12 +106,14 @@ is listed within the DirectoryIndex directive
 
 `sudo vim /etc/apache2/mods-enabled/dir.conf`
 
-`<IfModule mod_dir.c>
+```conf
+<IfModule mod_dir.c>
         #Change this:
         #DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
         #To this:
         DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
-</IfModule>`
+</IfModule>
+```
 
 ![sudo_vim](./images/sudo_vim.png) 
 (To remove orignal lines press Esc, :, %, d)  
@@ -118,8 +123,10 @@ We then reload Apache so changes can take effect `sudo systemctl reload apache2`
 To test if PHP has been correctly installed and configured on our server we can create a PHP script,
 first step is to create a new file named "index.php" in our custom web root folder `vim /var/www/projectlamp/index.php` we must then add the text below inside the file.
 
-"<?php
-phpinfo();" 
+```php
+<?php
+phpinfo();
+```
 
 ![php](./images/php.png) 
 
