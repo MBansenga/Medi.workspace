@@ -358,3 +358,86 @@ Five main kill types
 3. SIGQUIT
 4. SIGILL 
 5. SIGTERM 
+
+# Linux partitions 
+
+Master Boot Record (MBR) - Can only have up to 4 primary partitions per drive, can create logical partitions by replacing primary partition
+with an extended partition -> Maximum of 16 partitions per drive, must be < 2 TB
+
+Partioning tools = fdisk, cfdisk, parted, gparted 
+
+GUID Partition Table (GPT) - Stands for Globally unique identifier, can have up to 128 partitions per drive, up to 9.4 ZB, greater reliability
+(redundant partition tables, CRC check of partition tables), requires GRUB 2 or eLILO bootloader 
+
+You can run `fdisk` to see information on your hard drive 
+![fdisk](./images/fdisk.PNG)
+
+To create a partion you can run `fdisk /dev/sd(abc...)` and follow the next steps 
+
+![fdisk1](./images/fdisk1.PNG)
+
+![fdisk2](./images/fdisk2.PNG)
+
+*n = add a new parition, p = prints out partition table, d = delete a partition, w = writes partition to the disk, t = change partition type*
+
+For GUID partitions you must use `gdisk -l /dev/sd(abc...)` to list information 
+
+![gdisk](./images/gdisk.PNG)
+
+The steps for gdisk are similar to fdisk with slight variations 
+
+![gdisk1](./images/gdisk1.PNG) 
+
+For linux swap space is optional, swap partition is a fixed size, can add more swap space as necessary 
+
+Deciding how much swap space you need? -> How much RAM does your machine have? (more RAM = less swap space needed), How are you using your machine? (e.g., desktop, server, lots of VMs)
+
+You can use `swapon` to look at your partitions, you can also use `swapon /dev/sd(abc...)` and then `swapon -s` to activate your swap
+
+![swapon](./images/swapon.PNG)
+
+![swapon1](./images/swapon1.PNG)
+
+You can use `mkswap /dev/sd(abc...)` to format your partition 
+
+![mkswap](./images/mkswap.PNG) 
+
+You can use `swapoff` to deactivate your swap partitions 
+
+![swapoff](./images/swapoff.PNG)
+
+# Formatting and Mounting Linux partitions 
+
+We need to prepare a partition to accept data, before it can accept data it must be formatted using some
+kind of filesystem 
+
+For Linux important filesystems are: ext4 (default filesystem for most linux distros), xfs (Default for Red Hat),
+btrfs (Default for SUSE) 
+
+You can use `mke2fs -T` to format a partition or `mkfs.xfs` for xfs 
+
+![mke2fs](./images/mke2fs.PNG) 
+
+![mkfs](./images/mkfs.PNG) 
+
+You can check to see what has been mounted using `mount | grep`, you can then create a new directory in "~/mnt" -> Once complete you can now use `mount` to mount your partition 
+
+![mount_grep](./images/mount_grep.PNG) 
+
+![mnt](./images/mnt.PNG)  
+
+![mount](./images/mount.PNG)  
+
+To unmount a partition you can use `umount` followed by the directory of the mount point 
+
+![umount](./images/umount.PNG) 
+
+To make your automatically mount after a system reboot you can make changes to /etc/fstab, You can use `blkid` to retrive the UUID of your partition [first number = no. of back ups, second number = priority]
+ 
+![fstab](./images/fstab.PNG)  
+
+
+
+
+
+
