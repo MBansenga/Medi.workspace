@@ -155,7 +155,27 @@ We can now install MySQL client and test that we can connect from our Web Server
 
 ```
 sudo yum install mysql
-sudo mysql -u admin -p -h <172.31.59.10>
+sudo mysql -u admin -p -h <DB-Server-Priv-IP-address>
 ```
 
+We now need to change permissions and configuration so Apache can use wordpress using 
 
+```
+sudo chown -R apache:apache /var/www/html/wordpress
+sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R
+sudo setsebool -P httpd_can_network_connect=1
+sudo setsebool -P httpd_can_network_connect_db 1
+```
+![chown](./images/chown.png)
+
+Before we can use wordpress we must edit the config file using `sudo vi wp-config.php` to make sure the details matches
+our database server 
+
+After making sure TCP port 80 is enabled for inbound rules for your Web Server you should 
+be able to access wordpress from your web browser with `http://<Web-Server-Public-IP-Address>/wordpress/` 
+
+![wp](./images/wp.png)
+
+![wp2](./images/wp2.png)
+
+![wp3](./images/wp3.png)
