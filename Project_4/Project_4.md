@@ -4,9 +4,9 @@ In this project we will be familiarising ourselves with the MEAN stack and deplo
 In the previous projects we used various tools to connect to our EC2 instance, this time we will be using 
 the AWS Web Console to open our CLI
 
-![Instance](./images/instance.PNG) 
+![Instance](./images/Instance.PNG) 
 
-![Instance1](./images/instance1.PNG) 
+![Instance1](./images/Instance1.PNG) 
 
 # Install NodeJs
 
