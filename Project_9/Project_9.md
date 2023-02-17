@@ -67,7 +67,7 @@ To test our configuration works we can make some changes to any file in our GitH
 
 # Configuring Jenkins to copy files to NFS server via SSH
 
-Our next step is to copy our artifacts (saved locally on our Jenkins Server) to our NFS server to /mnt/apps directory. To do this we will need a plugin called "Publish Over SSH"
+Our next step is to copy our artifacts (saved locally on our Jenkins Server) to our NFS server to /home/ec2-user directory. To do this we will need a plugin called "Publish Over SSH"
 
 Manage Jenkins -> Manage Plugins -> Search for "Publish Over SSH" on Available tab and install 
 
@@ -75,9 +75,27 @@ Manage Jenkins -> Manage Plugins -> Search for "Publish Over SSH" on Available t
 
 Now we must navigate back to main dashboard and select Manage Jenkins -> Configure System, once here we scroll down to Publish over SSH plugin configuration section and configure it to be able to connect to our NFS Server. After filling in the details test the configuration and make sure the connection returns "Success"
 
-"Error: userauth_pubkey: key type ssh-rsa not in PubkeyAcceptedAlgorithms"
+![ssh2](./images/ssh2.png)
 
 *Note: must include private key, arbitrary name, hostname, username and remote directory -> Remember TCP port 22 must be open on NFS Server to recieve SSH connections*
+
+Save the configuration, open our Jenkins job/project configuration page and add another one "Post-build Action"
+
+![build1](./images/build1.png)
+
+Now we must configure it to send all files produced by the build into our previouslys defined remote directory. In our case we want to copy all files and directories – so we use **
+
+![buildfin](./images/buildfin.png)
+
+Save this configuration and go ahead, change something in our README.MD file in our GitHub Tooling repository. Webhook will trigger a new job and in the "Console Output" of the job we will find something like this:
+
+![transfer](./images/transfer.png)
+
+To make sure that the files in /home/ec2-user have been udated – connect via SSH/Putty to our NFS server and check README.MD file, if we can see our changes we previously made in our GitHub – the job works as expected 
+
+![cat](./images/cat.png)
+
+
 
 
 
